@@ -1,26 +1,41 @@
-#print board
-class PrintBoard
-    def initialize(board)
-        @board = board
+# Outline of game:
+# Board game object
+# Function to check if won
+# Function to take human input
+
+class TicTacToe
+    @winner
+    @loser
+    @board = []
+    def initialize(player1, player2)
     end
 
-    def print
-        puts @board[0] + "|" + @board[1] + "|" + @board[2]
-        puts @board[3] + "|" + @board[4] + "|" + @board[5]
-        puts @board[6] + "|" + @board[7] + "|" + @board[8]
+    def play_round
+
+    end
+
+    def
+end
+
+module PrintDisplay
+    def display_intro_message
+        puts "Welcome to Tic-Tac-Toe!"
+    end
+
+    def display_player_x_name
+        puts "Please enter the name of the first player (X): "
+    end
+
+    def display_player_o_name
+        puts "Please enter the name of the second player (O): "
+    end
+
+    def display_winner_message(name)
+        puts "Congratulations! #{name} is the winner!"
     end
 end
-#format board (array)
 
-#get user input
 
-#game array
+test_game = TicTacToe.new("Wes", "Riley")
 
-#game logic
-
-#game loop
-
-#CPU player logic
-
-game1 = PrintBoard.new(["X", "X", "X", "X", "X", "X", "X", "X", "X"])
-game1.print
+test_game.play
