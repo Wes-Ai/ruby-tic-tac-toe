@@ -3,20 +3,6 @@
 # Function to check if won
 # Function to take human input
 
-class TicTacToe
-    @winner
-    @loser
-    @board = []
-    def initialize(player1, player2)
-    end
-
-    def play_round
-
-    end
-
-    def
-end
-
 module PrintDisplay
     def display_intro_message
         puts "Welcome to Tic-Tac-Toe!"
@@ -36,6 +22,25 @@ module PrintDisplay
 end
 
 
+
+class TicTacToe
+    include PrintDisplay
+
+    @winner
+    @loser
+    @board = []
+    def initialize(player1, player2)
+    end
+
+    def play_round
+
+    end
+
+    def test
+        display_intro_message
+    end
+end
+
 test_game = TicTacToe.new("Wes", "Riley")
 
-test_game.play
+test_game.test
