@@ -49,7 +49,6 @@ module PrintDisplay
     puts "            Congratulations! #{name} is the winner!"
     puts "***                                                               ***"
     puts "***---***---***---***---***---***---***---***---***---***---***---***"
-    
   end
 end
 
@@ -78,7 +77,7 @@ class TicTacToe
   def begin_game
     display_intro
     assign_players
-    play_round
+    play_game
   end
 
   def assign_players
@@ -92,14 +91,16 @@ class TicTacToe
     @player2_symbol = input_from_user.upcase
   end
 
-  def play_round
+  def play_game
     round_determiner
-    while @game_on
-      ask_where_to_play(@current_player)
-      pretty_print_board(@board)
-      update_board(input_from_user.to_i, @current_symbol)
-      round_determiner
-    end
+    play_round while @game_on
+  end
+
+  def play_round
+    ask_where_to_play(@current_player)
+    pretty_print_board(@board)
+    update_board(input_from_user.to_i, @current_symbol)
+    round_determiner
   end
 
   def update_board(update_index, current_symbol)
@@ -140,9 +141,15 @@ class TicTacToe
     display_game_over
     @game_on = false
   end
-
 end
 
-test_game = TicTacToe.new
+continue_playing = true
 
-test_game.begin_game
+while continue_playing
+  game = TicTacToe.new
+  game.begin_game
+  puts 'Would you like to play another game? (Y/N)'
+  answer = gets.chomp.upcase
+
+  continue_playing = false unless answer == 'Y'
+end
