@@ -50,6 +50,14 @@ module PrintDisplay
     puts "***                                                               ***"
     puts "***---***---***---***---***---***---***---***---***---***---***---***"
   end
+
+  def display_input_position_error
+    puts 'That position is already taken, please try again.'
+  end
+
+  def display_input_type_error
+    puts 'That input is not valid, please try again.'
+  end
 end
 
 module Gameplay
@@ -99,8 +107,21 @@ class TicTacToe
   def play_round
     ask_where_to_play(@current_player)
     pretty_print_board(@board)
-    update_board(input_from_user.to_i, @current_symbol)
+    update_board(validate_user_input_position, @current_symbol)
     round_determiner
+  end
+
+  def validate_user_input_position
+    input = input_from_user.to_i
+    if input.eql? 0
+      display_input_type_error
+      validate_user_input_position
+    elsif @board[input].is_a? String
+      display_input_position_error
+      validate_user_input_position
+    else
+      input
+    end
   end
 
   def update_board(update_index, current_symbol)
@@ -110,14 +131,18 @@ class TicTacToe
   def check_winner
     @winning_combos.each do |combo|
       sliced_board = [@board.slice(combo[0]), @board.slice(combo[1]), @board.slice(combo[2])]
-      if sliced_board.all?(String)
-        return true
-      end
+      return true if all_equal?(sliced_board)
     end
     false
   end
 
+  def all_equal?(arr)
+    arr.uniq.size <= 1
+  end
+
   def game_winner
+    display_victory_banner(@current_player)
+    pretty_print_board(@board)
     display_victory_banner(@current_player)
     @game_on = false
   end
