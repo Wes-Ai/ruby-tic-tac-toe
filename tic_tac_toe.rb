@@ -2,6 +2,7 @@
 # Board game object
 # Function to check if won
 # Function to take human input
+# [0, X, 2, 3, X, 5, O, X, 8, 9]
 
 module PrintDisplay
   def display_intro
@@ -18,10 +19,6 @@ module PrintDisplay
 
   def display_player_o_name
     puts 'Please enter the name of the second player (O): '
-  end
-
-  def display_winner(name)
-    puts "Congratulations! #{name} is the winner!"
   end
 
   def display_game_over
@@ -45,6 +42,15 @@ module PrintDisplay
   def spacer
     puts
   end
+
+  def display_victory_banner(name)
+    puts "***---***---***---***---***---***---***---***---***---***---***---***"
+    puts "***                                                               ***"
+    puts "            Congratulations! #{name} is the winner!"
+    puts "***                                                               ***"
+    puts "***---***---***---***---***---***---***---***---***---***---***---***"
+    
+  end
 end
 
 module Gameplay
@@ -56,7 +62,6 @@ end
 class TicTacToe
   include PrintDisplay
   include Gameplay
-  
   def initialize
     @board = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     @count = 0
@@ -66,14 +71,14 @@ class TicTacToe
     @player2 = nil
     @player1_symbol = nil
     @player2_symbol = nil
-    @winning_combos = [[0, 1, 2], [0, 4, 8], [0, 3, 6], [3, 4, 5],
-                      [6, 7, 8], [1, 4, 7], [2, 5, 8], [6, 4, 2]]
+    @winning_combos = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7],
+                       [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]]
   end
 
   def begin_game
     display_intro
     assign_players
-    play_round()
+    play_round
   end
 
   def assign_players
@@ -101,12 +106,26 @@ class TicTacToe
     @board[update_index] = current_symbol
   end
 
-  #def check_game_win
-   # if(current_board)
+  def check_winner
+    @winning_combos.each do |combo|
+      sliced_board = [@board.slice(combo[0]), @board.slice(combo[1]), @board.slice(combo[2])]
+      if sliced_board.all?(String)
+        return true
+      end
+    end
+    false
+  end
+
+  def game_winner
+    display_victory_banner(@current_player)
+    @game_on = false
+  end
 
   def round_determiner
     if @count >= 9
       game_over
+    elsif check_winner
+      game_winner
     elsif @count.odd?
       @current_player = @player1
       @current_symbol = @player1_symbol
@@ -122,12 +141,8 @@ class TicTacToe
     @game_on = false
   end
 
-  def test
-    input_from_user
-    pretty_print_board([1, 'O', 3, 4, 'X', 6, 7, 8, 9])
-  end
 end
 
-test_game = TicTacToe.new()
+test_game = TicTacToe.new
 
 test_game.begin_game
