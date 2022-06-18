@@ -17,10 +17,6 @@ module PrintDisplay
     puts 'What would you like your symbol to be? (X / O)'
   end
 
-  def display_player_o_name
-    puts 'Please enter the name of the second player (O): '
-  end
-
   def display_game_over
     puts 'Game over! It\'s a draw!'
   end
@@ -40,6 +36,11 @@ module PrintDisplay
   end
 
   def spacer
+    puts
+  end
+
+  def double_spacer
+    puts
     puts
   end
 
@@ -105,20 +106,21 @@ class TicTacToe
   end
 
   def play_round
+    double_spacer
     ask_where_to_play(@current_player)
     pretty_print_board(@board)
-    update_board(validate_user_input_position, @current_symbol)
+    update_board(validate_user_input, @current_symbol)
     round_determiner
   end
 
-  def validate_user_input_position
+  def validate_user_input
     input = input_from_user.to_i
     if input.eql? 0
       display_input_type_error
-      validate_user_input_position
+      validate_user_input
     elsif @board[input].is_a? String
       display_input_position_error
-      validate_user_input_position
+      validate_user_input
     else
       input
     end
@@ -148,10 +150,10 @@ class TicTacToe
   end
 
   def round_determiner
-    if @count >= 9
-      game_over
-    elsif check_winner
+    if check_winner
       game_winner
+    elsif @count >= 9
+      game_over
     elsif @count.odd?
       @current_player = @player1
       @current_symbol = @player1_symbol
