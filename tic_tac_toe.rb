@@ -109,18 +109,18 @@ class TicTacToe
     double_spacer
     ask_where_to_play(@current_player)
     pretty_print_board(@board)
-    update_board(validate_user_input, @current_symbol)
+    update_board(validate_user_input_to_play, @current_symbol)
     round_determiner
   end
 
-  def validate_user_input
+  def validate_user_input_to_play
     input = input_from_user.to_i
     if input.eql? 0
       display_input_type_error
-      validate_user_input
+      validate_user_input_to_play
     elsif @board[input].is_a? String
       display_input_position_error
-      validate_user_input
+      validate_user_input_to_play
     else
       input
     end
